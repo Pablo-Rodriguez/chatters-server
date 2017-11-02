@@ -1,0 +1,14 @@
+{
+  "name": "chatters-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Pablo-Rodriguez/chatters-server.git",
+  "author": "Pablo-Rodriguez <pablorp1996@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mixin-es6": "^1.0.1",
+    "morgan": "^1.9.0"
+  }
+}

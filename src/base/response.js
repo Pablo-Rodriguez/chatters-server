@@ -14,12 +14,10 @@ module.exports = class Response {
   }
 
   static sendError (res, error) {
-    console.log(res.status)
-    res.status(500).end()
-    // res.status(error.code).json({
-    //   error: true,
-    //   data: error.data
-    // })
+    res.status(error.code).json({
+      error: true,
+      data: error.data
+    })
   }
 
   static get NOT_FOUND () {

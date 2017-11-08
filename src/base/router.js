@@ -3,7 +3,7 @@ const {Router} = require('express')
 const {wrapAsync} = require('../lib/helpers')
 
 module.exports = class {
-  constructor ({router = Router(), config = {}}) {
+  constructor ({router = Router(), config = {}} = {}) {
     this.router = router
     this.config = config
     this.configure()

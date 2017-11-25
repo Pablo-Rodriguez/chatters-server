@@ -11,7 +11,14 @@ const Response = require('../base/response')
 const errors = require('./errors')
 
 module.exports = class extends Middleware {
-  firstmiddleware () {}
+  firstmiddleware () {
+    this.router.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+      res.header('Access-Control-Allow-Credentials', 'true')
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+        next()
+    })
+  }
 
   premiddleware () {
     this.router.use(bodyParser.urlencoded({extended: false}))
@@ -20,6 +27,10 @@ module.exports = class extends Middleware {
     this.router.use(expressSession(this.config.expressSession))
     this.router.use(passport.initialize())
     this.router.use(passport.session())
+    this.router.use((req, res, next) => {
+      console.log(req.body)
+      next()
+    })
     super.use('morgan', morgan(this.config.morgan.level))
   }
 

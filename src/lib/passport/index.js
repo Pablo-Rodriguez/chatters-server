@@ -23,4 +23,30 @@ module.exports = class Passport {
     const account = await UserModel.getById(id)
     return cb(null, account)
   }
+
+  static async authenticate (req, res, next, type) {
+    return new Promise((resolve, reject) => {
+      passport.authenticate(type, (err, user, info) => {
+        if (err) {
+          reject(err)
+        } else if (!user) {
+          reject(new Error(info.message))
+        } else {
+          resolve(user)
+        }
+      })(req, res, next)
+    })
+  }
+
+  static async login (req, account) {
+    return new Promise((resolve, reject) => {
+      req.login(account, (err) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+      })
+    })
+  }
 }

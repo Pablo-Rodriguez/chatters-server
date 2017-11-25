@@ -1,5 +1,6 @@
 
 const Controller = require('../../base/controller')
+const Passport = require('../../lib/passport')
 
 const UNIQUE_ERROR = 11000
 
@@ -23,10 +24,12 @@ module.exports = ({Model, Response}) => class UserController extends Controller 
     }
   }
 
-  static login (req, res) {
-    if (req.isAuthenticated()) {
+  static async login (req, res, next) {
+    try {
+      const user = await Passport.authenticate(req, res, next, 'local')
+      await Passport.login(req, user)
       Response.sendOK(res)
-    } else {
+    } catch (error) {
       Response.sendError(res, Response.BAD_REQUEST)
     }
   }

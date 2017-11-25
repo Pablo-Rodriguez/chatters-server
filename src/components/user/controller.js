@@ -14,7 +14,10 @@ module.exports = ({Model, Response}) => class UserController extends Controller 
       if (Array.isArray(error)) {
         Response.sendError(res, {
           code: 400,
-          data: error
+          data: {
+            message: Response.BAD_REQUEST.data.message,
+            fields: error
+          }
         })
       } else if (error.code === UNIQUE_ERROR) {
         Response.sendError(res, Response.BAD_REQUEST)
@@ -32,6 +35,10 @@ module.exports = ({Model, Response}) => class UserController extends Controller 
     } catch (error) {
       Response.sendError(res, Response.BAD_REQUEST)
     }
+  }
+
+  static session (req, res) {
+    Response.sendData(res, req.user)
   }
 
   static logout (req, res) {

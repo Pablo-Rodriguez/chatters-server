@@ -23,28 +23,36 @@ module.exports = class Response {
   static get NOT_FOUND () {
     return {
       code: 404,
-      data: messages.NOT_FOUND
+      data: {
+        message: messages.NOT_FOUND
+      }
     }
   }
 
   static get SERVER_ERROR () {
     return {
       code: 500,
-      data: messages.SERVER_ERROR
+      data: {
+        message: messages.SERVER_ERROR
+      }
     }
   }
 
   static get FORBIDDEN () {
     return {
       code: 403,
-      data: messages.FORBIDDEN
+      data: {
+        message: messages.FORBIDDEN
+      }
     }
   }
 
   static get BAD_REQUEST () {
     return {
       code: 400,
-      data: messages.BAD_REQUEST
+      data: {
+        message: messages.BAD_REQUEST
+      }
     }
   }
 }

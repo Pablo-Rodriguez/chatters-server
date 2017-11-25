@@ -21,6 +21,7 @@ module.exports = class Passport {
 
   static async deserialize (id, cb) {
     const account = await UserModel.getById(id)
+    delete account.password
     return cb(null, account)
   }
 

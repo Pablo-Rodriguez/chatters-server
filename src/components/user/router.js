@@ -18,6 +18,8 @@ module.exports = class UserRouter extends Router {
     this.router.post('/login', Router.wrap(Controller.login))
     this.router.get('/session', auth(), Controller.session)
     this.router.post('/logout', auth(), Controller.logout)
+
+    this.router.get('/users', auth(), Controller.getUsers)
   }
 }
 

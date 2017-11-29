@@ -45,5 +45,16 @@ module.exports = ({Model, Response}) => class UserController extends Controller 
     req.logout()
     Response.sendOK(res)
   }
+
+  static async getUsers (req, res) {
+    try {
+      const query = req.query.q || ''
+      await Model.validateQuery(query)
+      const users = await Model.searchByName(query).limit(20)
+      Response.sendData(res, {users})
+    } catch (error) {
+      Response.sendError(res, Response.BAD_REQUEST)
+    }
+  }
 }
 

@@ -19,8 +19,16 @@ module.exports = ({Schema}) => class UserModel extends Model {
   static getByName (name) {
     return Schema.findOne({name})
   }
+  
+  static validateQuery (query) {
+    return indicative.validate({name: query}, {name: UserModel.validation.name})
+  }
 
-  static async validate ({name, password}) {
+  static searchByName (query) {
+    return Schema.find({'name': { $regex: new RegExp(`^${query}`) }}).select('name')
+  }
+
+  static validate ({name, password}) {
     return indicative.validate({name, password}, UserModel.validation)
   }
 

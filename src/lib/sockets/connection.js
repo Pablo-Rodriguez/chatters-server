@@ -27,6 +27,13 @@ module.exports = class Connection {
           msg: `${socket.user.name} no está disponible en este momento`
         })
       })
+      
+      socket.on('chat::send-message', ({to, by, message}) => {
+        if (users[to] != null) {
+          console.log(`Message from ${by} to ${to}: ${message}`)
+          io.sockets.sockets[users[to]].emit('chat::message', {by, message})
+        }
+      })
 
       socket.on('disconnect', () => {
         delete users[socket.user.name]

@@ -5,10 +5,10 @@ module.exports = class Connection {
   static use (io) {
     return (socket) => {
       users[socket.user.name] = socket.id
-      socket.on('chat::init-call', (name) => {
+      socket.on('chat::init-call', ({name, signalInfo, constraints}) => {
         console.log(`Iniciando llamada de ${socket.user.name} a ${name}`)
         if (users[name] != null) {
-          io.sockets.sockets[users[name]].emit('chat::incoming-call', {from: socket.user.name})
+          io.sockets.sockets[users[name]].emit('chat::incoming-call', {from: socket.user.name, signalInfo, constraints})
         } else {
           socket.emit('chat::rejected-call', {
             msg: `${name} no está conectado en este momento`
@@ -16,9 +16,9 @@ module.exports = class Connection {
         }
       })
 
-      socket.on('chat::accepted-call', (name) => {
-        console.log(`${socket.user.name} ha aceptado la llamada de ${name}`)
-        io.sockets.sockets[users[name]].emit('chat::accepted-call', {from: socket.user.name})
+      socket.on('chat::accepted-call', ({from, signalInfo, constraints}) => {
+        console.log(`${socket.user.name} ha aceptado la llamada de ${from}`)
+        io.sockets.sockets[users[from]].emit('chat::accepted-call', {from: socket.user.name, signalInfo, constraints})
       })
 
       socket.on('chat::rejected-call', (name) => {

@@ -1,5 +1,7 @@
 
 const {join} = require('path')
+
+const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
@@ -37,6 +39,10 @@ module.exports = class extends Middleware {
       next()
     })
     super.use('morgan', morgan(this.config.morgan.level))
+    const staticDir = express.static(join(__dirname, '..', 'public'))
+    this.router.use(staticDir)
+    this.router.use('/login', staticDir)
+    this.router.use('/signup', staticDir)
   }
 
   postmiddleware () {}

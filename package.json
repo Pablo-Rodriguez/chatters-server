@@ -6,7 +6,8 @@
   "author": "Pablo-Rodriguez <pablorp1996@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "mkdir -p src/public && cp client/dist/* src/public/ && node server.js",
+    "pro": "NODE_ENV=prod node server.js",
+    "start": "mkdir -p src/public && cp client/dist/* src/public/ && yarn run pro",
     "dev": "./node_modules/.bin/nodemon --exec yarn start"
   },
   "dependencies": {

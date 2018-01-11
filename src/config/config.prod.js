@@ -1,2 +1,7 @@
 
-module.exports = {}
+module.exports = {
+  db: {
+    url: process.env.MONGODB_URI
+  }
+}
+

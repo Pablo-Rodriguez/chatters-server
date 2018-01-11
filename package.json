@@ -6,7 +6,7 @@
   "author": "Pablo-Rodriguez <pablorp1996@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "client": "cd client && yarn install && yarn run pro && cd ..",
+    "client": "cd client && yarn run pro && cd ..",
     "start": "yarn run client && cp client/dist/* src/public/ && node server.js",
     "dev": "./node_modules/.bin/nodemon --exec yarn start"
   },

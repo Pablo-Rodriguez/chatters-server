@@ -6,37 +6,43 @@ module.exports = class Connection {
     return (socket) => {
       users[socket.user.name] = socket.id
       socket.on('chat::init-call', ({name, signalInfo, constraints}) => {
-        console.log(`Iniciando llamada de ${socket.user.name} a ${name}`)
-        if (users[name] != null) {
-          io.sockets.sockets[users[name]].emit('chat::incoming-call', {from: socket.user.name, signalInfo, constraints})
-        } else {
-          socket.emit('chat::rejected-call', {
-            msg: `${name} no está conectado en este momento`
-          })
-        }
+        try {
+          if (users[name] != null) {
+            io.sockets.sockets[users[name]].emit('chat::incoming-call', {from: socket.user.name, signalInfo, constraints})
+          } else {
+            socket.emit('chat::rejected-call', {
+              msg: `${name} no está conectado en este momento`
+            })
+          }
+        } catch (e) {console.log(e)}
       })
 
       socket.on('chat::accepted-call', ({from, signalInfo, constraints}) => {
-        console.log(`${socket.user.name} ha aceptado la llamada de ${from}`)
-        io.sockets.sockets[users[from]].emit('chat::accepted-call', {from: socket.user.name, signalInfo, constraints})
+        try {
+          io.sockets.sockets[users[from]].emit('chat::accepted-call', {from: socket.user.name, signalInfo, constraints})
+        } catch (e) {console.log(e)}
       })
 
       socket.on('chat::rejected-call', (name) => {
-        console.log(`${socket.user.name} ha rechazado la llamada de ${name}`)
-        io.sockets.sockets[users[name]].emit('chat::rejected-call', {
-          msg: `${socket.user.name} no está disponible en este momento`
-        })
+        try {
+          io.sockets.sockets[users[name]].emit('chat::rejected-call', {
+            msg: `${socket.user.name} no está disponible en este momento`
+          })
+        } catch (e) {console.log(e)}
       })
       
       socket.on('chat::send-message', ({to, by, message}) => {
-        if (users[to] != null) {
-          console.log(`Message from ${by} to ${to}: ${message}`)
-          io.sockets.sockets[users[to]].emit('chat::message', {by, message})
-        }
+        try {
+          if (users[to] != null) {
+            io.sockets.sockets[users[to]].emit('chat::message', {by, message})
+          }
+        } catch (e) {console.log(e)}
       })
 
       socket.on('disconnect', () => {
-        delete users[socket.user.name]
+        try {
+          delete users[socket.user.name]
+        } catch (e) {console.log(e)}
       })
     }
   }

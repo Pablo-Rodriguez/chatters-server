@@ -8,7 +8,8 @@
   "scripts": {
     "pro": "NODE_ENV=prod node server.js",
     "start": "mkdir -p src/public && cp client/dist/* src/public/ && yarn run pro",
-    "dev": "./node_modules/.bin/nodemon --exec yarn start"
+    "dev": "./node_modules/.bin/nodemon --exec yarn start",
+    "local": "mkdir -p src/public && cp client/dist/* src/public/ && NODE_ENV=dev node server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

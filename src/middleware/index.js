@@ -29,15 +29,6 @@ module.exports = class extends Middleware {
     this.router.use(session)
     this.router.use(passport.initialize())
     this.router.use(passport.session())
-    this.router.use((req, res, next) => {
-      if (Object.keys(req.query).length > 0) {
-        console.log('Query', req.query)
-      }
-      if (Object.keys(req.body).length > 0) {
-        console.log('Body', req.body)
-      }
-      next()
-    })
     super.use('morgan', morgan(this.config.morgan.level))
     const staticDir = express.static(join(__dirname, '..', 'public'))
     this.router.use(staticDir)
